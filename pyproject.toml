@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "Hana"
+version = "0.1.0"
+description = "An automated reddit repost bot selector + purger. Made for r/traaa and other subreddits"
+authors = ["No767 <73260931+No767@users.noreply.github.com>"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^0.19.2"
+colorama = "^0.4.4"
+click = "^8.0.4"
+Nuitka = "^0.7.4"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
