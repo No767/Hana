@@ -1,0 +1,42 @@
+name: Build Linux x86_64
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Format:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Set up Python 3.10.3
+      id: setup-python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.10.3
+    - name: Set up GCC 11
+      uses: egor-tensin/setup-gcc@v1
+      with:
+        version: 11
+        platform: x64
+    - name: Set up Poetry
+      uses: Gr1N/setup-poetry@v7
+    - name: Cache Poetry
+      id: cache-poetry
+      uses: actions/cache@v2.1.7
+      with:
+        path: ~/.cache/pypoetry/virtualenvs
+        key: ${{ runner.os }}-poetry-v1-${{ hashFiles('**/Pipfile.lock') }}
+    - name: Install Poetry Dependencies
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
+      run: |
+        poetry install
+    - name: Build Hana with Nuitka For Linux x86_64
+      id: hana-build
+      run: python -m nuitka --standalone --follow-stdlib --follow-imports -o build/hana-v0.1.0 --output-dir=hana-dist
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: hana-v0.1.0
+        path: hana-dist/
