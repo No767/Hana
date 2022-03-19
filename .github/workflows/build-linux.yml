@@ -34,7 +34,7 @@ jobs:
         poetry install
     - name: Build Hana with Nuitka For Linux x86_64
       id: hana-build
-      run: poetry run python -m nuitka --standalone --follow-stdlib --follow-imports -o build/hana-v0.1.0 src/main.py 
+      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports -o hana-v0.1.0 ./src/main.py
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
