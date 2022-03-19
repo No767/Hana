@@ -1,2 +1,5 @@
 build
 .idea
+main.build
+main.dist
+hana-v0.1.0
