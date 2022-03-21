@@ -26,14 +26,14 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-v2-${{ hashFiles('**/Pipfile.lock') }}
+        key: ${{ runner.os }}-poetry-v5-${{ hashFiles('**/Pipfile.lock') }}
     - name: Install Poetry Dependencies
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
         poetry install
     - name: Build Hana with Nuitka For Windows
       id: hana-build
-      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --mingw64 --output-dir=./hana-build -o hana ./src/main.py
+      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --mingw64 --output-dir=./hana-build ./src/main.py
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
