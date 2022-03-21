@@ -6,7 +6,7 @@ on:
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
@@ -31,11 +31,11 @@ jobs:
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
         poetry install
-    - name: Build Hana with Nuitka For Linux x86_64
+    - name: Build Hana with Nuitka For Windows
       id: hana-build
-      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --windows-company-name=No767 --mingw64 -o hana-v0.1.0 ./src/main.py    
+      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --mingw64 ./src/main.py    
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: hana-v0.1.0
+        name: hana-v0.1.0-windows
         path: .
