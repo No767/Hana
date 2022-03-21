@@ -33,9 +33,9 @@ jobs:
         poetry install
     - name: Build Hana with Nuitka For Windows
       id: hana-build
-      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --mingw64 --output-dir=./hana-build -o hana-v0.1.0-dev ./src/main.py
+      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads --mingw64 --output-dir=./hana-build -o hana ./src/main.py
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: hana-v0.1.0-windows
-        path: ./hana-build/main.dist/*.exe
+        path: ./hana-build/main.dist/
