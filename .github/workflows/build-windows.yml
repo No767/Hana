@@ -26,7 +26,7 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-v2-${{ hashFiles('**/Pipfile.lock') }}
+        key: ${{ runner.os }}-poetry-v3-${{ hashFiles('**/Pipfile.lock') }}
     - name: Install Poetry Dependencies
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
