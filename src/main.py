@@ -1,9 +1,7 @@
-import click
+import typer
 
-@click.command()
-@click.option('--greeting', '-g')
-def main(greeting):
-    click.echo(f"please help me... {greeting}")
+def main(hello: str = False):
+    typer.echo(f"{hello}")
     
 if __name__ == "__main__":
-    main()
+    typer.run(main)
