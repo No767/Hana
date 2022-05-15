@@ -1,4 +1,4 @@
-name: Build Linux x86_64
+name: Build Linux
 on:
   push:
     branches:
@@ -10,15 +10,17 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-    - name: Set up Python 3.10.3
+    - name: Set up Python 3.10.4
       id: setup-python
       uses: actions/setup-python@v3
       with:
-        python-version: 3.10.3
-    - name: Set up GCC 11
+        python-version: 3.10.4
+    - name: Install Libs
+      run : sudo apt-get update && sudo apt-get install libfuse libfuse-dev patchelf gcc
+    - name: Set up GCC 12
       uses: egor-tensin/setup-gcc@v1
       with:
-        version: 11
+        version: 12
         platform: x64
     - name: Set up Poetry
       uses: Gr1N/setup-poetry@v7
@@ -27,16 +29,16 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-v1-${{ hashFiles('**/Pipfile.lock') }}
+        key: ${{ runner.os }}-poetry-v2-${{ hashFiles('**/Pipfile.lock') }}
     - name: Install Poetry Dependencies
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
         poetry install
     - name: Build Hana with Nuitka For Linux x86_64
       id: hana-build
-      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads -o hana-v0.1.0 ./src/main.py    
+      run: poetry run python -m nuitka --standalone --onefile --follow-stdlib --follow-imports --assume-yes-for-downloads -o hana-v0.1.0 --output-dir=hana-build --linux-onefile-icon=./assets/hana.jpg./src/main.py    
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: hana-v0.1.0
-        path: .
+        path: ./hana-build/main.dist
